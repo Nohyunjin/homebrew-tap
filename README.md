@@ -17,6 +17,26 @@ brew install Nohyunjin/tap/orgmem
 (equivalent to `brew tap Nohyunjin/tap` followed by
 `brew install orgmem`.)
 
+### First run on macOS (ad-hoc signed binary)
+
+From v0.1.1 the Mac binary is re-signed ad-hoc in CI via
+`codesign --sign -`, so it runs on any arm64 Mac. If you installed
+v0.1.0 (pre-codesign) and `kg` exits silently or with a "damaged app"
+dialog, either re-sign locally…
+
+```bash
+codesign --force --sign - "$(which kg)"
+```
+
+…strip the quarantine flag…
+
+```bash
+xattr -d com.apple.quarantine "$(which kg)" 2>/dev/null || true
+```
+
+…or just upgrade: `brew upgrade orgmem`. Developer-ID notarization is
+tracked for v0.2.
+
 ## How this tap is maintained
 
 The Formula in this repo is a mirror — the source-of-truth lives at
